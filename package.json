@@ -11,13 +11,17 @@
   "dependencies": {
     "@astrojs/react": "^4.4.1",
     "@sanity/astro": "^3.2.10",
+    "@sanity/client": "^7.12.1",
     "@sanity/vision": "^4.13.0",
+    "@sanity/visual-editing": "^4.0.0",
     "@tailwindcss/vite": "^4.1.16",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
     "astro": "^5.15.3",
+    "astro-portabletext": "^0.11.3",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "react-is": "^19.2.0",
     "sanity": "^4.13.0",
     "styled-components": "^6.1.19",
     "tailwindcss": "^4.1.16"
