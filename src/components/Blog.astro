@@ -1,13 +1,25 @@
 ---
-import { sanityClient } from "sanity:client";
+import { createClient } from "@sanity/client";
 import type { PostItem } from "../libs/PostItem";
 import { Image } from "astro:assets";
 import { formatDate } from "../libs/formatDate";
 import { PortableText } from "astro-portabletext";
 import "../styles/global.css";
 
-const posts: PostItem[] = await sanityClient.fetch(
-  '*[_type == "post"] | order(_createdAt desc){"slug": slug.current, name, date, "image": image.asset->url, content}',
+const client = createClient({
+  projectId: "wfqtcpjl",
+  dataset: "production",
+  useCdn: false,
+});
+
+const posts: PostItem[] = await client.fetch(
+  `*[_type == "post"] | order(_createdAt desc){
+    "slug": slug.current,
+    name,
+    date,
+    "image": image.asset->url,
+    content
+  }`,
 );
 ---
 

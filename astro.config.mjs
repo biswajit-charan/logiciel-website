@@ -16,8 +16,7 @@ export default defineConfig({
     sanity({
       projectId: 'wfqtcpjl',
       dataset: 'production',
-      // Set useCdn to false if you're building statically.
-      useCdn: false,
+      useCdn: false,  // Set useCdn to false if you're building statically.
       studioBasePath: '/admin',
     }),
     react(),

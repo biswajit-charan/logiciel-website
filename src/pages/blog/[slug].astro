@@ -1,5 +1,5 @@
 ---
-import { sanityClient } from "sanity:client";
+import { createClient } from "@sanity/client";
 import type { PostItem } from "../../libs/PostItem";
 import { formatDate } from "../../libs/formatDate";
 import Layout from "../../layouts/Layout.astro";
@@ -9,8 +9,20 @@ import "../../styles/global.css";
 
 export const prerender = true;
 
+const client = createClient({
+  projectId: "wfqtcpjl",
+  dataset: "production",
+  useCdn: false,
+});
+
 export async function getStaticPaths() {
-  const slugs = await sanityClient.fetch(
+  const client = createClient({
+    projectId: "wfqtcpjl",
+    dataset: "production",
+    useCdn: false,
+  });
+
+  const slugs = await client.fetch(
     `*[_type == "post"]{"params": {"slug": slug.current}}`,
   );
 
@@ -25,7 +37,6 @@ if (slug === undefined) {
 
 // Fetch the each blog post from sanity by that slug
 const query = `*[_type == "post" && slug.current == $slug][0]{
-
 name,
 "slug": slug.current,
 "image": image.asset->url,
@@ -33,10 +44,9 @@ date,
 tags,
 author,
 content,
-
 }`;
 
-const post: PostItem = await sanityClient.fetch(query, { slug });
+const post: PostItem = await client.fetch(query, { slug });
 
 console.log(post);
 ---
