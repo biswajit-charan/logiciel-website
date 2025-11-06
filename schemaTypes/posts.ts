@@ -5,6 +5,12 @@ const categories = [
     { title: "ai tools", value: "ai tools" },
 ];
 
+const authors = [
+    { title: "biswajit", value: "biswajit" },
+    { title: "harpreet", value: "harpreet" },
+    { title: "megha", value: "megha" },
+];
+
 export const posts = {
     name: "post",
     title: "Post",
@@ -29,6 +35,10 @@ export const posts = {
             name: "author",
             title: "Author",
             type: "string",
+            options: {
+                list: authors,
+            },
+            initialValue: "biswajit",
             validation: (Rule: Rule) => Rule.required(),
         },
 
