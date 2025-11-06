@@ -83,7 +83,7 @@ export const posts = {
             fields: [
                 {
                     name: "alt",
-                    title: "Alt",
+                    title: 'Alt text',
                     type: "string",
                 },
             ],
@@ -96,6 +96,17 @@ export const posts = {
             of: [
                 { type: "block" },
                 { type: "table" },
+                {
+                    type: 'image',
+                    options: { hotspot: true },
+                    fields: [
+                        {
+                            name: 'alt',
+                            title: 'Alt text',
+                            type: 'string',
+                        },
+                    ],
+                },
             ],
         },
     ],
