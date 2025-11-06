@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@astrojs/react": "^4.4.1",
+    "@portabletext/types": "^3.0.0",
     "@sanity/astro": "^3.2.10",
     "@sanity/client": "^7.12.1",
     "@sanity/table": "^2.0.0",
@@ -26,5 +27,8 @@
     "sanity": "^4.13.0",
     "styled-components": "^6.1.19",
     "tailwindcss": "^4.1.16"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.19"
   }
 }

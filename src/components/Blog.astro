@@ -25,7 +25,7 @@ const posts: PostItem[] = await client.fetch(
 
 <section class="container mt-12">
   <div class="mb-8">
-    <h2 class="text-500 font-500 leading-none md:text-650">Recent posts</h2>
+    <h2 class="text-4xl font-500 leading-none md:text-650">Recent posts</h2>
   </div>
 
   <div class="md:grid md:grid-cols-3 md:gap-4">
@@ -48,14 +48,14 @@ const posts: PostItem[] = await client.fetch(
               <span class="text-primary-400">{post.category}</span>
             </div>
 
-            <h2 class="mb-2 inline-block text-300 font-600">{post.name}</h2>
+            <h2 class="mb-2 inline-block text-2xl font-600">{post.name}</h2>
 
             <article class="mb-4 line-clamp-3 text-grey-200">
               <PortableText value={post.content} />
             </article>
 
             <a
-              class="mb-4 inline-block w-full rounded-lg bg-primary-400 px-4 py-3 text-center font-500"
+              class="mb-4 inline-block w-full rounded-lg bg-blue-600 px-4 py-3 text-center font-500 text-white"
               href={`/blog/${post.slug}`}
             >
               Read More

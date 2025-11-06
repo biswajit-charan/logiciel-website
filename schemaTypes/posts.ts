@@ -93,7 +93,10 @@ export const posts = {
             name: "content",
             title: "Content",
             type: "array",
-            of: [{ type: "block" }],
+            of: [
+                { type: "block" },
+                { type: "table" },
+            ],
         },
     ],
 };

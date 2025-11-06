@@ -56,8 +56,6 @@ console.log(post);
     <div class="overlay">
       <div class="container">
         <div class="mr-auto max-w-[700px] pt-16">
-          <h2 class="text-700 font-700 leading-[1.2]">{post.name}</h2>
-
           <a
             class="mt-2 inline-block border-b-2 font-500 capitalize leading-3 text-white transition-colors duration-300 hover:text-primary-400"
             href="/"
@@ -82,23 +80,19 @@ console.log(post);
       />
 
       <div class="mb-12">
-        <h1
-          class="mb-3 text-center text-700 font-700 leading-[1.2] md:text-800"
-        >
+        <h1 class="mb-3 text-5xl font-700 leading-[1.2] md:text-800">
           {post.name}
         </h1>
 
         <div class="mb-4 flex items-center justify-center gap-5">
           <p class="text-200 text-primary-400">Written by {post.author}</p>
-          <span class="text-neutral-300">{formatDate(post.date)}</span>
+          <span class="text-neutral-600">{formatDate(post.date)}</span>
         </div>
 
         <ul class="mb-4 flex items-center justify-center gap-4">
           {
             post.tags.map((tag, index) => (
-              <li
-                class={`rounded-full px-3 py-2 text-[.9rem] ${index % 2 === 0 ? "bg-primary-400" : "bg-[purple]"}`}
-              >
+              <li class="rounded-full px-3 py-2 text-[.9rem] bg-gray-200">
                 {tag}
               </li>
             ))
