@@ -47,16 +47,6 @@ const query = `*[_type == "post" && slug.current == $slug][0]{
     _type == "image" => {
       ...,
       "url": asset->url
-    },
-    _type == "table" => {
-      ...,
-      "rows": rows[]{
-        ...[],
-        "cells": @[]{
-          ...,
-          "text": children[].text
-        }
-      }
     }
   }
 }`;
@@ -125,8 +115,11 @@ console.log("tableBlocks:", tableBlocks);
 
         <ul class="mb-4 flex items-center justify-center gap-4">
           {
-            post.tags.map((tag, index) => (
-              <li class="rounded-full px-3 py-2 text-[.9rem] bg-gray-200">
+            post.tags?.map((tag, index) => (
+              <li
+                key={index}
+                class="rounded-full px-3 py-2 text-[.9rem] bg-gray-200"
+              >
                 {tag}
               </li>
             ))
@@ -135,7 +128,57 @@ console.log("tableBlocks:", tableBlocks);
       </div>
 
       <article class="prose prose-neutral lg:prose-xl dark:prose-invert">
-        <PortableText value={post.content} />
+        {
+          content.map((item: any, idx: number) =>
+            item._type === "image" ? (
+              <img
+                src={item.url || item.asset?.url || ""}
+                alt={item.alt || ""}
+                loading="lazy"
+                class="my-6 rounded-xl shadow-md"
+              />
+            ) : item._type === "table" ? (
+              item?.rows && item.rows.length > 0 ? (
+                <table class="my-6 w-full border border-gray-300">
+                  <tbody>
+                    {item.rows.map((row: any, rIdx: number) => {
+                      const cells = Array.isArray(row)
+                        ? row
+                        : (row?.cells ?? []);
+                      return (
+                        <tr key={rIdx}>
+                          {cells.map((cell: any, cIdx: number) => (
+                            <td
+                              key={cIdx}
+                              class="border border-gray-300 px-4 py-2"
+                            >
+                              {Array.isArray(cell) ? (
+                                <PortableText value={cell} />
+                              ) : (
+                                (cell?.text ??
+                                (Array.isArray(cell?.children)
+                                  ? cell.children
+                                      .map((c: any) => c?.text)
+                                      .join("")
+                                  : String(cell ?? "")))
+                              )}
+                            </td>
+                          ))}
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              ) : (
+                <pre class="my-4 overflow-x-auto rounded bg-gray-100 p-3 text-xs">
+                  {JSON.stringify(item, null, 2)}
+                </pre>
+              )
+            ) : (
+              <PortableText value={[item]} />
+            ),
+          )
+        }
       </article>
     </div>
   </div>
@@ -143,7 +186,7 @@ console.log("tableBlocks:", tableBlocks);
 
 <style>
   .hero {
-    background-image: url(../../assets/ai.jpg);
+    background-image: url(../../assets/background.svg);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
