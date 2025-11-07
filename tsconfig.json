@@ -5,7 +5,8 @@
     "**/*"
   ],
   "exclude": [
-    "dist"
+    "dist",
+    "astro.config.mjs"
   ],
   "compilerOptions": {
     "jsx": "react-jsx",

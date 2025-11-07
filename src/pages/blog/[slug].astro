@@ -3,7 +3,6 @@ import { createClient } from "@sanity/client";
 import type { PostItem } from "../../libs/PostItem";
 import { formatDate } from "../../libs/formatDate";
 import Layout from "../../layouts/Layout.astro";
-import { Image } from "astro:assets";
 import { PortableText } from "astro-portabletext";
 import "../../styles/global.css";
 
@@ -32,23 +31,58 @@ export async function getStaticPaths() {
 const { slug } = Astro.params;
 
 if (slug === undefined) {
-  throw new Error("Slug is requried");
+  throw new Error("Slug is required");
 }
 
 // Fetch the each blog post from sanity by that slug
 const query = `*[_type == "post" && slug.current == $slug][0]{
-name,
-"slug": slug.current,
-"image": image.asset->url,
-date,
-tags,
-author,
-content,
+  name,
+  "slug": slug.current,
+  "image": image.asset->url,
+  date,
+  tags,
+  author,
+  content[]{
+    ...,
+    _type == "image" => {
+      ...,
+      "url": asset->url
+    },
+    _type == "table" => {
+      ...,
+      "rows": rows[]{
+        ...[],
+        "cells": @[]{
+          ...,
+          "text": children[].text
+        }
+      }
+    }
+  }
 }`;
 
-const post: PostItem = await client.fetch(query, { slug });
+const post: PostItem | null = await client.fetch(query, { slug });
 
 console.log(post);
+
+if (!post) {
+  throw new Error(`Post not found for slug: ${slug}`);
+}
+
+const imageUrl: string =
+  typeof post.image === "string"
+    ? post.image
+    : ((post.image as any)?.src ?? (post.image as any)?.url ?? "");
+
+const content = post.content ?? [];
+
+// Filter for image and table blocks (safe even if content is empty)
+const imageBlocks = content.filter((item: any) => item._type === "image");
+const tableBlocks = content.filter((item: any) => item._type === "table");
+
+// useful server-side debug logs
+console.log("imageBlocks:", imageBlocks);
+console.log("tableBlocks:", tableBlocks);
 ---
 
 <Layout title={post.name}>
@@ -70,11 +104,11 @@ console.log(post);
 
   <!-- Main content -->
   <div class="container">
-    <div class="mx-auto mb-[5rem] mt-20 max-w-[800px]">
-      <Image
-        width={500}
-        height={500}
-        src={post.image}
+    <div class="mx-auto mb-20 mt-20 max-w-[800px]">
+      <img
+        src={imageUrl}
+        width="500"
+        height="500"
         class="mb-12 h-fit w-full rounded-lg"
         alt={post.name}
       />
